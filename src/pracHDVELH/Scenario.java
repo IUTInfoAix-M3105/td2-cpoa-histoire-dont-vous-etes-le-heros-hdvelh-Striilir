@@ -1,9 +1,11 @@
 /**
  * File: ScenarioDG.java
  * Creation: 7 nov. 2020, Jean-Philippe.Prost@univ-amu.fr
- * Template étudiants
+ * Template Ã©tudiants
  */
 package pracHDVELH;
+
+import myUtils.ErrorNaiveHandler;
 
 /**
  * @author prost
@@ -16,7 +18,28 @@ public class Scenario {
 	private GUIManager gui;
 
 	/* TO BE COMPLETED */
+	public String run() {
+		Event nextStep;
+		if ((head == null)) { return MSG_EMPTY_SCENARIO; }
+		while (!nextStep.isFinal()) {
+			nextStep = nextStep.run();
+		}
+		gui.outputln(nextStep.getData());
+		return MSG_FINALE;
+	}
 
+	public int interpretAnswer() {
+		if (playerAnswer == null) {
+			ErrorNaiveHandler.abort("error");
+		}
+		while (playerAnswer.isEmpty() || !playerAnswer.matches("[1-9]") ||
+				!isInRanger(Interger.parseInt(playerAnswer) - 1 )) {
+			gui.outputln("message erreur");
+			gui.outputln(PROMPT_ANSWER);
+			playerAnswer = reader.next();
+		}
+		return Integer.parseInt(playerAnswer) - 1;
+	}
 	/* MAIN */
 	public static void main(String[] args) {
 		Scenario scenario;
